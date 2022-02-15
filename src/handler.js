@@ -87,4 +87,25 @@ const editNoteByIdHandler = (request, h) => {
 	return response
 }
 
-module.exports = {addNoteHandler, getAllNotesHandler, getNoteByIdHandler, editNoteByIdHandler}
+const deleteNoteByIdHandler = (request, h) => {
+	const { id } = request.params
+	const index = notes.findIndex((note) => note.id === id)
+	if (index !== -1) {
+		notes.splice(index, 1)
+		const response = h.response({
+			status: "Success",
+			message: "Note deleted successfully"
+		})
+		response.code(200)
+		return response
+	} else {
+		const response = h.response({
+			status: "fail",
+			message: "Note not found"
+		})
+		response.code(404)
+		return response
+	}
+}
+
+module.exports = {addNoteHandler, getAllNotesHandler, getNoteByIdHandler, editNoteByIdHandler, deleteNoteByIdHandler}
